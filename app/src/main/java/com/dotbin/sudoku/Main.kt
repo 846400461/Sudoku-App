@@ -1,11 +1,9 @@
 package com.dotbin.sudoku
 
-import android.graphics.Color
-import android.util.Log
-import com.dotbin.sudoku.algorithm.SolveSudoku
+import com.dotbin.sudoku.algorithm.SudokuSolver
 
 fun main() {
-    SolveSudoku.getSolution(sudoArr)
+    SudokuSolver.getSolution(sudoArr)
     for (x in sudoArr.indices)
         for(y in sudoArr[x].indices){
             if(sudoArr[x][y]!=sudoArr2[x][y])

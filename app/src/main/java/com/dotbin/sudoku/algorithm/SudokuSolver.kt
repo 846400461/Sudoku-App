@@ -2,7 +2,7 @@ package com.dotbin.sudoku.algorithm
 
 import java.lang.IllegalArgumentException
 
-object SolveSudoku : Throwable() {
+object SudokuSolver : Throwable() {
     private val solvedLocationStack = mutableListOf<SudokuLocation>()
     private val solvingLocation = mutableListOf<SudokuLocation>()
     fun getSolution(sudokuArray: Array<IntArray>): Boolean {

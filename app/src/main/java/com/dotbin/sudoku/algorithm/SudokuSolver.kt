@@ -13,11 +13,14 @@ object SudokuSolver : Throwable() {
                 throw IllegalArgumentException("Illegal sudoku array size")
         }
         solvedLocationStack.clear()
+        solvingLocation.clear()
         for (x in sudokuArray.indices)
             for (y in sudokuArray.indices) {
                 if (sudokuArray[x][y] == 0)
                     solvingLocation.add(SudokuLocation(x, y, sudokuArray[x][y]))
             }
+        if (!isLegalSudoKuArray(sudokuArray))
+            return false
         return realSolution(sudokuArray)
     }
 
@@ -48,14 +51,14 @@ object SudokuSolver : Throwable() {
 
     private fun findTarget(sudokuArray: Array<IntArray>, lx: Int, ly: Int, minValue: Int): Int {
         var targetValue = 0
-        val baseCol = lx - lx % 3
-        val baseRow = ly - ly % 3
+        val baseRow = lx - lx % 3
+        val baseCol = ly - ly % 3
         loop@ for (ta in (minValue + 1)..9) {
             for (i in 0 until 9)
                 if (sudokuArray[lx][i] == ta || sudokuArray[i][ly] == ta) continue@loop
             for (i in 0 until 3)
                 for (j in 0 until 3) {
-                    if (sudokuArray[baseCol + i][baseRow + j] == ta) continue@loop
+                    if (sudokuArray[baseRow + i][baseCol + j] == ta) continue@loop
                     else if (i == 2 && j == 2) {
                         targetValue = ta
                         break@loop
@@ -63,6 +66,39 @@ object SudokuSolver : Throwable() {
                 }
         }
         return targetValue
+    }
+
+    fun isLegalSudoKuArray(sudokuArray: Array<IntArray>): Boolean {
+        for (i in sudokuArray.indices) {
+            for (j in sudokuArray[i].indices) {
+                if (sudokuArray[i][j] != 0 && !isLegalSudoKuArray(
+                        sudokuArray,
+                        i,
+                        j,
+                        sudokuArray[i][j]
+                    )
+                )
+                    return false
+            }
+        }
+        return true
+    }
+
+    private fun isLegalSudoKuArray(
+        sudokuArray: Array<IntArray>,
+        lx: Int,
+        ly: Int,
+        mValue: Int
+    ): Boolean {
+        val baseRow = lx - lx % 3
+        val baseCol = ly - ly % 3
+        for (i in 0 until 9)
+            if ((sudokuArray[lx][i] == mValue && i != ly) || (sudokuArray[i][ly] == mValue && i != lx)) return false
+
+        for (i in 0 until 3)
+            for (j in 0 until 3)
+                if (sudokuArray[baseRow + i][baseCol + j] == mValue && baseRow + i != lx && baseCol + j != ly) return false
+        return true
     }
 }
 

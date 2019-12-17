@@ -50,14 +50,14 @@ object SolveSudoku : Throwable() {
         var targetValue = 0
         val baseCol = lx - lx % 3
         val baseRow = ly - ly % 3
-        loop@for (ta in (minValue + 1)..9) {
+        loop@ for (ta in (minValue + 1)..9) {
             for (i in 0 until 9)
                 if (sudokuArray[lx][i] == ta || sudokuArray[i][ly] == ta) continue@loop
-            for(i in 0 until 3)
-                for (j in 0 until 3){
-                    if(sudokuArray[baseCol+i][baseRow+j]==ta) continue@loop
-                    else if(i==2&&j==2){
-                        targetValue=ta
+            for (i in 0 until 3)
+                for (j in 0 until 3) {
+                    if (sudokuArray[baseCol + i][baseRow + j] == ta) continue@loop
+                    else if (i == 2 && j == 2) {
+                        targetValue = ta
                         break@loop
                     }
                 }

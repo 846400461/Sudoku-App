@@ -110,8 +110,8 @@ class SudokuGameView : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         //draw cell
-        for (x in 0 until 9) {
-            for (y in 0 until 9) {
+        for (x in cellIfs.indices) {
+            for (y in cellIfs[x].indices) {
                 cellPaint.color = cellIfs[x][y].backgroundColor
                 canvas?.drawRect(
                     x * cellWidth,

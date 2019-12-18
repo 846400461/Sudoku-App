@@ -12,9 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sudokuGameView.setOnCellClickedListener{
-            if(it)
                  Random.nextInt(10)
-            else 0
         }
         val sudokuCells=sudokuGameView.cellIfs
         sudokuCells[1][1].enabled=false

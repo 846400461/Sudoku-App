@@ -10,7 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.dotbin.sudoku.R
 
-typealias OnCellClickedListener = ((Boolean) -> Int)
+typealias OnCellClickedListener = (() -> Int)
 
 class SudokuGameView : View {
     companion object {
@@ -26,14 +26,7 @@ class SudokuGameView : View {
     private var cellHeight = 0F
     private var cellWidth = 0F
     var cellIfs = Array(9) {
-        Array(9) {
-            SudokuCell(
-                Color.BLACK,
-                0,
-                true,
-                Color.WHITE
-            )
-        }
+        Array(9) { SudokuCell(Color.BLACK, 0, true, Color.WHITE) }
     }
     private var textColor = 0
     private var errorTextColor = 0
@@ -161,15 +154,15 @@ class SudokuGameView : View {
             }
             MotionEvent.ACTION_UP -> {
                 handleActionUp(row, col)
-                val lastValue = cellIfs[row][col].value
-                onCellClicked?.let {
-                    val cellValue = it(cellIfs[row][col].enabled)
-                    if (cellValue in 1..9)
-                        cellIfs[row][col].value = cellValue
-                    1
-                }
+                if (cellIfs[row][col].enabled)
+                    onCellClicked?.let {
+                        val cellValue = it()
+                        if (cellValue in 1..9)
+                            cellIfs[row][col].value = cellValue
+                        1
+                    }
                 handleSameValue(row, col)
-                handleConflictValue(row, col, lastValue)
+                handleConflictValue(row, col)
             }
             else -> return super.onTouchEvent(event)
         }
@@ -211,34 +204,34 @@ class SudokuGameView : View {
         cellIfs[row][col].backgroundColor = selectedCellColor
     }
 
-    private fun handleConflictValue(row: Int, col: Int, lastValue: Int) {
-        var count = 0
+    private fun handleConflictValue(lx: Int, ly: Int) {
         for (i in cellIfs.indices) {
-            if (cellIfs[row][i].value == cellIfs[row][col].value) {
-                cellIfs[row][i].valueColor = errorTextColor
-                count++
-            } else if (cellIfs[row][i].value == lastValue) {
-                cellIfs[row][i].valueColor = textColor
-            }
-            if (cellIfs[i][col].value == cellIfs[row][col].value) {
-                cellIfs[i][col].valueColor = errorTextColor
-                count++
-            } else if (cellIfs[i][col].value == lastValue) {
-                cellIfs[i][col].valueColor = textColor
-            }
+            cellIfs[lx][i].valueColor = if (isErrorValue(lx, i)) errorTextColor else textColor
+            cellIfs[i][ly].valueColor = if (isErrorValue(i, ly)) errorTextColor else textColor
         }
-        val baseRow = row - row % 3
-        val baseCol = col - col % 3
+        val baseLx = lx - lx % 3
+        val baseLy = ly - ly % 3
         for (i in 0..2)
             for (j in 0..2) {
-                if (cellIfs[baseRow + i][baseCol + j].value == cellIfs[row][col].value) {
-                    cellIfs[baseRow + i][baseCol + j].valueColor=errorTextColor
-                    count++
-                }else if(cellIfs[baseRow + i][baseCol + j].value == lastValue){
-                    cellIfs[baseRow + i][baseCol + j].valueColor =textColor
-                }
+                cellIfs[baseLx + i][baseLy + j].valueColor =
+                    if (isErrorValue(baseLx + i, baseLy + j)) errorTextColor else textColor
             }
-        if (count == 3) cellIfs[row][col].valueColor = textColor
+    }
+
+    private fun isErrorValue(lx: Int, ly: Int): Boolean {
+        for (i in cellIfs.indices) {
+            if ((cellIfs[lx][ly].value == cellIfs[lx][i].value && ly != i) || (cellIfs[lx][ly].value == cellIfs[i][ly].value && lx != i))
+                return true
+        }
+        val baseLx = lx - lx % 3
+        val baseLy = ly - ly % 3
+        for (i in 0..2)
+            for (j in 0..2) {
+                if (baseLx + i == lx && baseLy + j == ly) continue
+                if (cellIfs[baseLx + i][baseLy + j].value == cellIfs[lx][ly].value)
+                    return true
+            }
+        return false
     }
 
     fun setOnCellClickedListener(listener: OnCellClickedListener) {
@@ -262,4 +255,4 @@ data class SudokuCell(
     var value: Int,
     var enabled: Boolean,
     var valueColor: Int
-)
+    )

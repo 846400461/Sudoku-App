@@ -103,3 +103,9 @@ object SudokuConstValue {
         )
     )
 }
+
+enum class SudokuDegree {
+    LOW,
+    MIDDLE,
+    HIGH,
+}

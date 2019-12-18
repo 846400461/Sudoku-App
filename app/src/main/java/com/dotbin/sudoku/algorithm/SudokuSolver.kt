@@ -84,7 +84,7 @@ object SudokuSolver : Throwable() {
         return true
     }
 
-    private fun isLegalSudoKuArray(
+    fun isLegalSudoKuArray(
         sudokuArray: Array<IntArray>,
         lx: Int,
         ly: Int,

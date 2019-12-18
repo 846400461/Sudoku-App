@@ -1,7 +1,6 @@
 package com.dotbin.sudoku.algorithm
 
 import java.lang.IllegalArgumentException
-import kotlin.random.Random
 
 object SudokuKeyBuilder : Throwable() {
     private val ramSet = mutableSetOf<SudokuLocation>()
@@ -23,7 +22,7 @@ object SudokuKeyBuilder : Throwable() {
     }
 
     private fun buildSudokuKey(sudokuArray: Array<IntArray>) {
-        SudokuConstValue.templateSudokus[(0..8).random()].copyInto(sudokuArray)
+        sudokuCopy(SudokuConstValue.templateSudokus[(0..8).random()],sudokuArray)
     }
 
     private fun sudokuObfuscator(sudokuArray: Array<IntArray>){
@@ -52,5 +51,11 @@ object SudokuKeyBuilder : Throwable() {
             buildSudokuKey(sudokuArray)
 
         sudokuObfuscator(sudokuArray)
+    }
+
+    fun sudokuCopy(src:Array<IntArray>,des:Array<IntArray>){
+        for(i in src.indices)
+            for(j in src[i].indices)
+                des[i][j]=src[i][j]
     }
 }

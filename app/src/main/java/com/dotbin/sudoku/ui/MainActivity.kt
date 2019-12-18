@@ -1,7 +1,8 @@
-package com.dotbin.sudoku
+package com.dotbin.sudoku.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dotbin.sudoku.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 

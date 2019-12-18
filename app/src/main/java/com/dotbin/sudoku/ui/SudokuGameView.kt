@@ -1,4 +1,4 @@
-package com.dotbin.sudoku
+package com.dotbin.sudoku.ui
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import com.dotbin.sudoku.R
 
 typealias OnCellClickedListener = ((Boolean) -> Int)
 
@@ -50,10 +51,14 @@ class SudokuGameView : View {
         defStyleAttr
     ) {
         Log.i(TAG, "third constructor")
-        val a = context.obtainStyledAttributes(attrs, R.styleable.SudokuGameView)
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.SudokuGameView
+        )
         sectionLine.color = a.getColor(R.styleable.SudokuGameView_sectionLineColor, Color.GRAY)
         cellLine.color = a.getColor(R.styleable.SudokuGameView_cellLineColor, Color.DKGRAY)
-        gameBackgroundColor = a.getColor(R.styleable.SudokuGameView_backgroundColor, Color.rgb(54,54,54))
+        gameBackgroundColor =
+            a.getColor(R.styleable.SudokuGameView_backgroundColor, Color.rgb(54, 54, 54))
         cellSameTextColor =
             a.getColor(R.styleable.SudokuGameView_backgroundSameText, Color.rgb(159, 182, 205))
         cellSameXYColor =
@@ -222,7 +227,18 @@ class SudokuGameView : View {
                 cellIfs[i][col].valueColor = textColor
             }
         }
-        if (count == 2) cellIfs[row][col].valueColor = textColor
+        val baseRow = row - row % 3
+        val baseCol = col - col % 3
+        for (i in 0..2)
+            for (j in 0..2) {
+                if (cellIfs[baseRow + i][baseCol + j].value == cellIfs[row][col].value) {
+                    cellIfs[baseRow + i][baseCol + j].valueColor=errorTextColor
+                    count++
+                }else if(cellIfs[baseRow + i][baseCol + j].value == lastValue){
+                    cellIfs[baseRow + i][baseCol + j].valueColor =textColor
+                }
+            }
+        if (count == 3) cellIfs[row][col].valueColor = textColor
     }
 
     fun setOnCellClickedListener(listener: OnCellClickedListener) {
@@ -232,7 +248,8 @@ class SudokuGameView : View {
     fun postCellIfs() {
         for (i in cellIfs.indices) {
             for (j in cellIfs[i].indices) {
-                cellIfs[i][j].backgroundColor = if (cellIfs[i][j].enabled) gameBackgroundColor else backgroundDisable
+                cellIfs[i][j].backgroundColor =
+                    if (cellIfs[i][j].enabled) gameBackgroundColor else backgroundDisable
             }
         }
         postInvalidate()

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:padding="6dp">
+
+    <com.dotbin.sudoku.ui.SudokuGameView
+        android:id="@+id/sudokuGameView"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp" />
+    <TextView
+        android:id="@+id/sudokuState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/sudokuGameView"
+        android:layout_toRightOf="@id/sudokuGameView"
+        tool:text="State"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/sudokuTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_toEndOf="@id/sudokuState"
+        android:layout_toRightOf="@id/sudokuState"
+        android:gravity="end"
+        android:padding="6dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tool:text="00:00" />
+
+</RelativeLayout>

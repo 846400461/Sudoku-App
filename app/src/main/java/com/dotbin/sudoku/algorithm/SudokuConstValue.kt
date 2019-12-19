@@ -1,6 +1,7 @@
 package com.dotbin.sudoku.algorithm
 
 object SudokuConstValue {
+    val sudokuDegree="SudokuDegree"
     val templateSudokus = arrayOf(
         arrayOf(
             intArrayOf(1, 3, 8, 2, 4, 6, 5, 9, 7),

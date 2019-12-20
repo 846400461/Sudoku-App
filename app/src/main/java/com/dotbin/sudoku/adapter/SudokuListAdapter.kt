@@ -1,5 +1,7 @@
 package com.dotbin.sudoku.adapter
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import com.dotbin.sudoku.R
 import com.dotbin.sudoku.algorithm.SudokuState
 import com.dotbin.sudoku.ui.SudokuCell
 import com.dotbin.sudoku.ui.SudokuGameView
+import java.io.Serializable
 
 class SudokuListAdapter(private val sudokuBaseInfoList: MutableList<SudokuBaseInfo>) :
     RecyclerView.Adapter<SudokuListAdapter.ViewHolder>() {
@@ -59,7 +62,7 @@ class SudokuListAdapter(private val sudokuBaseInfoList: MutableList<SudokuBaseIn
     }
 }
 
-data class SudokuBaseInfo(
+data class SudokuBaseInfo (
     var sudokuArray: Array<Array<SudokuCell>>,
     var state: SudokuState,
     var time: Int

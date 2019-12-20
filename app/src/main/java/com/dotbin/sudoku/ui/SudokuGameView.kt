@@ -35,6 +35,7 @@ class SudokuGameView : View {
     private var cellSameXYColor = 0
     private var selectedCellColor = 0
     private var backgroundDisable = 0
+    var touchEnale = true
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -142,7 +143,7 @@ class SudokuGameView : View {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-
+        if (!touchEnale) return false
         val row = (((event?.x ?: 0f) - paddingLeft) / cellWidth).toInt()
         val col = (((event?.y ?: 0f) - paddingTop) / cellHeight).toInt()
         if (row >= 9 || col >= 9 || row < 0 || col < 0)
@@ -238,11 +239,12 @@ class SudokuGameView : View {
         onCellClicked = listener
     }
 
-    fun postCellIfs() {
+    fun firstPostCellIfs() {
         for (i in cellIfs.indices) {
             for (j in cellIfs[i].indices) {
                 cellIfs[i][j].backgroundColor =
                     if (cellIfs[i][j].enabled) gameBackgroundColor else backgroundDisable
+                cellIfs[i][j].valueColor=textColor
             }
         }
         postInvalidate()
@@ -255,4 +257,4 @@ data class SudokuCell(
     var value: Int,
     var enabled: Boolean,
     var valueColor: Int
-    )
+)

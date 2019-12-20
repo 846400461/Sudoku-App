@@ -3,13 +3,12 @@ package com.dotbin.sudoku.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dotbin.sudoku.R
 import com.dotbin.sudoku.adapter.Difficulty
 import com.dotbin.sudoku.adapter.DifficultyAdapter
-import com.dotbin.sudoku.algorithm.SudokuConstValue
+import com.dotbin.sudoku.algorithm.SudokuValue
 import com.dotbin.sudoku.algorithm.SudokuDegree
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             adapter = DifficultyAdapter(diList).apply {
                 setOnRecyclerViewClickListener { info,_ ->
                     Intent(this@MainActivity,SudokuListActivity::class.java).apply{
-                        putExtra(SudokuConstValue.sudokuDegree,info.difficulty)
+                        putExtra(SudokuValue.sudokuDegree,(info as Difficulty).difficulty)
                         startActivity(this)
                     }
                 }

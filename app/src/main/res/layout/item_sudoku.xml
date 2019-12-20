@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tool="http://schemas.android.com/tools"
-    android:padding="6dp">
+    android:padding="6dp"
+    android:background="@drawable/item_selector">
 
     <com.dotbin.sudoku.ui.SudokuGameView
-        android:id="@+id/sudokuGameView"
+        android:id="@+id/itemGameView"
         android:layout_width="100sp"
         android:layout_height="100sp"
         android:layout_marginEnd="6dp"
@@ -15,8 +16,8 @@
         android:id="@+id/sudokuState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/sudokuGameView"
-        android:layout_toRightOf="@id/sudokuGameView"
+        android:layout_toEndOf="@id/itemGameView"
+        android:layout_toRightOf="@id/itemGameView"
         tool:text="State"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 

@@ -1,7 +1,12 @@
 package com.dotbin.sudoku.algorithm
 
-object SudokuConstValue {
+import com.dotbin.sudoku.ui.SudokuCell
+
+object SudokuValue {
     val sudokuDegree="SudokuDegree"
+    val sudokuLowBoardList= mutableListOf<Array<Array<SudokuCell>>>()
+    val sudokuMidBoardList= mutableListOf<Array<Array<SudokuCell>>>()
+    val sudokuHighBoardList= mutableListOf<Array<Array<SudokuCell>>>()
     val templateSudokus = arrayOf(
         arrayOf(
             intArrayOf(1, 3, 8, 2, 4, 6, 5, 9, 7),
@@ -109,4 +114,9 @@ enum class SudokuDegree {
     LOW,
     MIDDLE,
     HIGH,
+}
+enum class SudokuState{
+    UNFINISHED,
+    FINISHED,
+    PROCESSING
 }

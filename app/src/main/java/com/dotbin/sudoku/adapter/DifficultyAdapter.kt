@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dotbin.sudoku.R
 import com.dotbin.sudoku.algorithm.SudokuDegree
+import java.util.*
 
 class DifficultyAdapter(private val difficultyList: List<Difficulty>) :
     RecyclerView.Adapter<DifficultyAdapter.ViewHolder>() {
@@ -49,7 +50,7 @@ class DifficultyAdapter(private val difficultyList: List<Difficulty>) :
     }
 }
 
-typealias RecyclerViewClick = ((info: Difficulty, position: Int) -> Unit)
+typealias RecyclerViewClick = ((info: Any, position: Int) -> Unit)
 
 data class Difficulty(
     var difficulty: SudokuDegree,

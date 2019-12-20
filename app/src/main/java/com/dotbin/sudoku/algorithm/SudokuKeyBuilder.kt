@@ -22,7 +22,7 @@ object SudokuKeyBuilder : Throwable() {
     }
 
     private fun buildSudokuKey(sudokuArray: Array<IntArray>) {
-        sudokuCopy(SudokuConstValue.templateSudokus[(0..8).random()],sudokuArray)
+        sudokuCopy(SudokuValue.templateSudokus[(0..8).random()],sudokuArray)
     }
 
     private fun sudokuObfuscator(sudokuArray: Array<IntArray>){

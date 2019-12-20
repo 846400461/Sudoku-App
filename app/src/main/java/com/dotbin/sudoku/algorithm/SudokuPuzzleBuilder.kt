@@ -15,9 +15,9 @@ object SudokuPuzzleBuilder : Throwable() {
         }
 
         return when (sudokuDegree) {
-            SudokuDegree.LOW -> getLowPuzzle(sudokuArray, (20..27).random())
+            SudokuDegree.LOW -> getLowPuzzle(sudokuArray, (25..27).random())
             SudokuDegree.MIDDLE -> getLowPuzzle(sudokuArray, (35..40).random())
-            SudokuDegree.HIGH -> getLowPuzzle(sudokuArray, (45..55).random())
+            SudokuDegree.HIGH -> getLowPuzzle(sudokuArray, (50..55).random())
         }
 
     }

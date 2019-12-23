@@ -13,7 +13,7 @@ import com.dotbin.sudoku.ui.SudokuCell
 import com.dotbin.sudoku.ui.SudokuGameView
 import java.io.Serializable
 
-class SudokuListAdapter(private val sudokuBaseInfoList: MutableList<SudokuBaseInfo>) :
+class SudokuListAdapter(private var sudokuBaseInfoList: List<SudokuBaseInfo>) :
     RecyclerView.Adapter<SudokuListAdapter.ViewHolder>() {
 
     private var recyclerViewClick: RecyclerViewClick? = null
@@ -56,13 +56,18 @@ class SudokuListAdapter(private val sudokuBaseInfoList: MutableList<SudokuBaseIn
         recyclerViewClick = click
     }
 
-    fun addItem(item: SudokuBaseInfo) {
-        sudokuBaseInfoList.add(item)
-        notifyItemInserted(sudokuBaseInfoList.lastIndex)
+//    fun addItem(item: SudokuBaseInfo) {
+//        sudokuBaseInfoList.add(item)
+//        notifyItemInserted(sudokuBaseInfoList.lastIndex)
+//    }
+
+    fun setDataSource(baseList: List<SudokuBaseInfo>?) {
+        sudokuBaseInfoList = baseList ?: listOf()
+        notifyDataSetChanged()
     }
 }
 
-data class SudokuBaseInfo (
+data class SudokuBaseInfo(
     var sudokuArray: Array<Array<SudokuCell>>,
     var state: SudokuState,
     var time: Int

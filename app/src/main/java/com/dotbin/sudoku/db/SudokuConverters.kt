@@ -3,17 +3,19 @@ package com.dotbin.sudoku.db
 import androidx.room.TypeConverter
 import com.dotbin.sudoku.adapter.SudokuBaseInfo
 import com.dotbin.sudoku.algorithm.SudokuDegree
+import com.google.gson.Gson
 import java.util.*
 
 class SudokuConverters {
+    private val json=Gson()
     @TypeConverter
     fun fromSudokuString(data: String?): SudokuBaseInfo? {
-        TODO("json String to SudokuBaseInfo")
+        return json.fromJson<SudokuBaseInfo>(data,SudokuBaseInfo::class.java)
     }
 
     @TypeConverter
     fun SudokuInfoToString(info: SudokuBaseInfo?): String? {
-            TODO("SudokuBaseInfo to json String")
+        return json.toJson(info)
     }
 
     @TypeConverter
@@ -27,12 +29,15 @@ class SudokuConverters {
     }
 
     @TypeConverter
-    fun fromDegreeString(data: Int?): SudokuDegree? {
-        TODO("Int to SudoDegree")
+    fun fromDegreeInt(data: Int?): SudokuDegree? {
+        return when(data){
+            SudokuDegree.LOW.ordinal -> SudokuDegree.LOW
+            SudokuDegree.MIDDLE.ordinal ->SudokuDegree.MIDDLE
+            SudokuDegree.HIGH.ordinal->SudokuDegree.HIGH
+            else -> null
+        }
     }
 
     @TypeConverter
-    fun degreeToString(degree: SudokuDegree?): Int? {
-        TODO("SudoDegree to Int")
-    }
+    fun degreeToInt(degree: SudokuDegree?) = degree?.ordinal
 }

@@ -10,6 +10,6 @@ import java.util.*
 data class SudokuGame(
         @PrimaryKey(autoGenerate = true) var id:Int,
         var updateOn: Date?,
-        var sudokuGame:SudokuBaseInfo?,
+        var sudokuGame:SudokuBaseInfo,
         var Degree:SudokuDegree?
 )

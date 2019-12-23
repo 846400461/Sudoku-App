@@ -1,19 +1,22 @@
 package com.dotbin.sudoku.db
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import com.dotbin.sudoku.algorithm.SudokuDegree
 
 @Dao
 interface SudokuDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSudoku(vararg sudokuses: SudokuGame):List<Long>
+    suspend fun insertSudoku(vararg sudokuses: SudokuGame):List<Long>
 
     @Update
-    fun updateSudoku(vararg sudokuses:SudokuGame)
+    suspend fun updateSudoku(vararg sudokuses:SudokuGame)
 
     @Delete
-    fun deleteSudoku(vararg sudokuses: SudokuGame)
+    suspend fun deleteSudoku(vararg sudokuses: SudokuGame)
 
-    @Query("SELECT * FROM SudokuGame  ORDER BY updateOn")
-    fun loadAllSudoku():List<SudokuGame>
+    @Query("SELECT * FROM SudokuGame  WHERE Degree = :degree ORDER BY updateOn")
+    fun loadSudoku(degree: SudokuDegree): LiveData<List<SudokuGame>>
 
 }

@@ -59,6 +59,7 @@ class SudokuViewModel(application: Application) : AndroidViewModel(application) 
 
     fun startTime(time: Long) {
         timeCount = time
+        stopTime()
         jobTime = viewModelScope.launch {
             while (true) {
                 delay(1000)

@@ -12,4 +12,7 @@
         <attr name="selectedCellColor" format="color"/>
         <attr name="backgroundDisable" format="color"/>
     </declare-styleable>
+    <declare-styleable name="NumKeyBoardView">
+        <attr name="keyboardNum" format="integer"/>
+    </declare-styleable>
 </resources>

@@ -16,9 +16,11 @@ import kotlinx.android.synthetic.main.activity_game.*
 class GameActivity : AppCompatActivity() {
     private lateinit var sudokuViewModel: SudokuViewModel
     private lateinit var sudoku: SudokuGame
+    private var keyNum = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        keyNum = numKeyboard.getNum()
         sudokuViewModel = ViewModelProvider(this).get(SudokuViewModel::class.java)
         intent.apply {
             val loc = getSerializableExtra(SudokuValue.sudokuGame) as Int?
@@ -28,12 +30,28 @@ class GameActivity : AppCompatActivity() {
                     sudokuGameView.cellIfs = it.sudokuGame.sudokuArray
                     sudokuGameView.invalidate()
                     sudokuViewModel.startTime(it.sudokuGame.time)
-                    sudoku.sudokuGame.state=SudokuState.PROCESSING
+                    sudoku.sudokuGame.state = SudokuState.PROCESSING
                 })
             }
         }
         sudokuViewModel.setSudokuTimeListener {
-            sudokuToolbar.title=(if(it/60<10)"0" else "")+"${it/60}:"+(if(it%60<10)"0" else "")+"${it%60}"
+            sudokuToolbar.title =
+                (if (it / 60 < 10) "0" else "") + "${it / 60}:" + (if (it % 60 < 10) "0" else "") + "${it % 60}"
+        }
+        numKeyboard.setNumclickListener {
+            keyNum = it
+            sudokuGameView.setCurrentCellValue(
+                when (keyNum) {
+                    10 -> 0
+                    else -> keyNum
+                }
+            )
+        }
+        sudokuGameView.setOnClickListener {
+            when (keyNum) {
+                10 -> 0
+                else -> keyNum
+            }
         }
     }
 

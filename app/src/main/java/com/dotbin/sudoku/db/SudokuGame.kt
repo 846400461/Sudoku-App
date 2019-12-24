@@ -11,5 +11,6 @@ data class SudokuGame(
         @PrimaryKey(autoGenerate = true) var id:Int,
         var updateOn: Date?,
         var sudokuGame:SudokuBaseInfo,
-        var Degree:SudokuDegree?
+        var Degree:SudokuDegree?,
+        var sudokuFinal:Array<IntArray>
 )

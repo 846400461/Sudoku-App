@@ -7,14 +7,14 @@ import com.google.gson.Gson
 import java.util.*
 
 class SudokuConverters {
-    private val json=Gson()
+    private val json = Gson()
     @TypeConverter
     fun fromSudokuString(data: String?): SudokuBaseInfo? {
-        return json.fromJson<SudokuBaseInfo>(data,SudokuBaseInfo::class.java)
+        return json.fromJson<SudokuBaseInfo>(data, SudokuBaseInfo::class.java)
     }
 
     @TypeConverter
-    fun SudokuInfoToString(info: SudokuBaseInfo?): String? {
+    fun sudokuInfoToString(info: SudokuBaseInfo?): String? {
         return json.toJson(info)
     }
 
@@ -30,14 +30,20 @@ class SudokuConverters {
 
     @TypeConverter
     fun fromDegreeInt(data: Int?): SudokuDegree? {
-        return when(data){
+        return when (data) {
             SudokuDegree.LOW.ordinal -> SudokuDegree.LOW
-            SudokuDegree.MIDDLE.ordinal ->SudokuDegree.MIDDLE
-            SudokuDegree.HIGH.ordinal->SudokuDegree.HIGH
+            SudokuDegree.MIDDLE.ordinal -> SudokuDegree.MIDDLE
+            SudokuDegree.HIGH.ordinal -> SudokuDegree.HIGH
             else -> null
         }
     }
 
     @TypeConverter
     fun degreeToInt(degree: SudokuDegree?) = degree?.ordinal
+
+    @TypeConverter
+    fun finalArrayToJson(final: Array<IntArray>) = json.toJson(final)
+
+    @TypeConverter
+    fun jsonToFinalArray(data: String) = json.fromJson<Array<IntArray>>(data, Array<IntArray>::class.java)
 }

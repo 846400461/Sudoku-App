@@ -36,6 +36,7 @@ class SudokuGameView : View {
     private var selectedCellColor = 0
     private var backgroundDisable = 0
     var touchEnale = true
+    private val selectCell = IntArray(2) { -1 }
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -119,6 +120,10 @@ class SudokuGameView : View {
                     (y + 1) * cellHeight,
                     cellPaint
                 )
+                if (cellPaint.color == selectedCellColor) {
+                    selectCell[0] = x
+                    selectCell[1] = y
+                }
                 //draw text
                 val centerX = (2 * x + 1) * cellWidth / 2f
                 val centerY = (2 * y + 1) * cellHeight / 2f
@@ -158,7 +163,7 @@ class SudokuGameView : View {
                 if (cellIfs[row][col].enabled)
                     onCellClicked?.let {
                         val cellValue = it()
-                        if (cellValue in 1..9)
+                        if (cellValue in 0..9)
                             cellIfs[row][col].value = cellValue
                         1
                     }
@@ -235,7 +240,18 @@ class SudokuGameView : View {
         return false
     }
 
+    fun setOnClickListener(listener: OnCellClickedListener) {
+        onCellClicked = listener
+    }
 
+    fun setCurrentCellValue(value: Int) {
+        if (value !in 0..9 || selectCell[0] == -1 || selectCell[1] == -1 || !cellIfs[selectCell[0]][selectCell[1]].enabled) return
+        cellIfs[selectCell[0]][selectCell[1]].value = value
+        handleActionUp(selectCell[0], selectCell[1])
+        handleSameValue(selectCell[0], selectCell[1])
+        handleConflictValue(selectCell[0], selectCell[1])
+        postInvalidate()
+    }
 }
 
 data class SudokuCell(

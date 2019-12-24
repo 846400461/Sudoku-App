@@ -30,7 +30,7 @@ class GameActivity : AppCompatActivity() {
                     sudokuGameView.cellIfs = it.sudokuGame.sudokuArray
                     sudokuGameView.invalidate()
                     sudokuViewModel.startTime(it.sudokuGame.time)
-                    sudoku.sudokuGame.state = SudokuState.PROCESSING
+                        sudoku.sudokuGame.state = SudokuState.PROCESSING
                 })
             }
         }
@@ -52,6 +52,11 @@ class GameActivity : AppCompatActivity() {
                 10 -> 0
                 else -> keyNum
             }
+        }
+        sudokuGameView.setOnSuccessListener {
+            val t =sudokuViewModel.stopTime()
+                sudokuToolbar.title = "已通关，通关时长：" +(if (t / 60 < 10) "0" else "") + "${t / 60}:" + (if (t % 60 < 10) "0" else "") + "${t % 60}"
+            sudoku.sudokuGame.state=SudokuState.FINISHED
         }
     }
 

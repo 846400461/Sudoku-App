@@ -30,14 +30,14 @@ class DifficultyAdapter(private val difficultyList: List<Difficulty>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.difficulty.text = when (difficultyList[position].difficulty) {
-            SudokuDegree.LOW-> "初级"
-            SudokuDegree.MIDDLE-> "中级"
+            SudokuDegree.LOW -> "初级"
+            SudokuDegree.MIDDLE -> "中级"
             SudokuDegree.HIGH -> "高级"
         }
         holder.brief.text =
-            if (difficultyList[position].finished > 0) "已解决 : ${difficultyList[position].finished}  " else "" +
-                    if (difficultyList[position].processing > 0) "解题中 : ${difficultyList[position].processing}  " else "" +
-                            if (difficultyList[position].unfinished > 0) "未解决 : ${difficultyList[position].unfinished}  " else ""
+            (if (difficultyList[position].finished > 0) "已解决 : ${difficultyList[position].finished}  " else "") +
+                    (if (difficultyList[position].processing > 0) "解题中 : ${difficultyList[position].processing}  " else "" )+
+                    (if (difficultyList[position].unfinished > 0) "未解决 : ${difficultyList[position].unfinished}  " else "")
         holder.view.setOnClickListener {
             recyclerViewClick?.apply {
                 this(difficultyList[position], position)
@@ -48,6 +48,8 @@ class DifficultyAdapter(private val difficultyList: List<Difficulty>) :
     fun setOnRecyclerViewClickListener(click: RecyclerViewClick) {
         recyclerViewClick = click
     }
+
+    fun getDifficultyList() = difficultyList
 }
 
 typealias RecyclerViewClick = ((info: Any, position: Int) -> Unit)

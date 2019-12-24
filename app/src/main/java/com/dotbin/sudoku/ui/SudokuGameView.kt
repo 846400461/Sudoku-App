@@ -11,6 +11,7 @@ import android.view.View
 import com.dotbin.sudoku.R
 
 typealias OnCellClickedListener = (() -> Int)
+typealias OnSudokuSuccess = (() -> Unit)
 
 class SudokuGameView : View {
     companion object {
@@ -19,6 +20,7 @@ class SudokuGameView : View {
     }
 
     private var onCellClicked: OnCellClickedListener? = null
+    private var onSudokuSuccess: OnSudokuSuccess? = null
     private val sectionLine = Paint()
     private val cellLine = Paint()
     private val cellPaint = Paint()
@@ -109,6 +111,8 @@ class SudokuGameView : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        var erroCount = 0
+        var numCount = 0
         //draw cell
         for (x in cellIfs.indices) {
             for (y in cellIfs[x].indices) {
@@ -128,6 +132,8 @@ class SudokuGameView : View {
                 val centerX = (2 * x + 1) * cellWidth / 2f
                 val centerY = (2 * y + 1) * cellHeight / 2f
                 cellTextPaint.color = cellIfs[x][y].valueColor
+                if (cellIfs[x][y].value != 0) numCount++
+                if (cellIfs[x][y].valueColor == errorTextColor) erroCount++
                 canvas?.drawText(
                     if (cellIfs[x][y].value == 0) "" else cellIfs[x][y].value.toString(),
                     centerX,
@@ -144,6 +150,10 @@ class SudokuGameView : View {
         for (i in 1..2) {
             canvas?.drawLine(i * 3 * cellWidth, 0F, i * 3 * cellWidth, 9 * cellWidth, sectionLine)
             canvas?.drawLine(0F, i * 3 * cellHeight, 9 * cellWidth, i * 3 * cellHeight, sectionLine)
+        }
+
+        if(numCount==81&&erroCount==0){
+            onSudokuSuccess?.invoke()
         }
     }
 
@@ -242,6 +252,10 @@ class SudokuGameView : View {
 
     fun setOnClickListener(listener: OnCellClickedListener) {
         onCellClicked = listener
+    }
+
+    fun setOnSuccessListener(listener: OnSudokuSuccess){
+        onSudokuSuccess=listener
     }
 
     fun setCurrentCellValue(value: Int) {

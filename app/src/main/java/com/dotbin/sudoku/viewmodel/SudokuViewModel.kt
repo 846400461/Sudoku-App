@@ -29,6 +29,13 @@ class SudokuViewModel(application: Application) : AndroidViewModel(application) 
             sudokuDao.loadSudoku(SudokuDegree.HIGH)
         )
     }
+    val sudokuDegreeCounts:Array<LiveData<List<SudokuGame>>> by lazy {
+        arrayOf(
+            sudokuDao.getCountDegree(SudokuDegree.LOW),
+            sudokuDao.getCountDegree(SudokuDegree.MIDDLE),
+            sudokuDao.getCountDegree(SudokuDegree.HIGH)
+        )
+    }
 
     fun findSudokuFromId(id: Int) = sudokuDao.findSudokuFromId(id)
 
@@ -63,10 +70,11 @@ class SudokuViewModel(application: Application) : AndroidViewModel(application) 
 
     fun stopTime(): Long {
         jobTime?.cancel()
+        jobTime = null
         return timeCount
     }
 
-    fun setSudokuTimeListener(listener: TimeListener){
-        timeListener=listener
+    fun setSudokuTimeListener(listener: TimeListener) {
+        timeListener = listener
     }
 }

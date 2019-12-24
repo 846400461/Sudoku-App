@@ -21,4 +21,7 @@ interface SudokuDao {
 
     @Query("SELECT * FROM SudokuGame WHERE id = :id LIMIT 1")
     fun findSudokuFromId(id:Int):LiveData<SudokuGame>
+
+    @Query("SELECT * FROM SudokuGame WHERE degree = :degree")
+    fun getCountDegree(degree: SudokuDegree):LiveData<List<SudokuGame>>
 }

@@ -3,6 +3,8 @@ package com.dotbin.sudoku.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -24,6 +26,12 @@ class SudokuListActivity : AppCompatActivity() {
     private lateinit var sudokuViewModel: SudokuViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_sudoku_list)
         sudokuViewModel = ViewModelProvider(this).get(SudokuViewModel::class.java)
 
@@ -43,8 +51,11 @@ class SudokuListActivity : AppCompatActivity() {
             adapter = SudokuListAdapter(SudokuList).apply {
                 setOnRecyclerViewClickListener { _, position ->
                     Intent(this@SudokuListActivity, GameActivity::class.java).apply {
-                        putExtra(SudokuValue.sudokuGame,
-                            sudokuViewModel.sudokuList[sudokuDegree?.ordinal?:0].value?.get(position)?.id
+                        putExtra(
+                            SudokuValue.sudokuGame,
+                            sudokuViewModel.sudokuList[sudokuDegree?.ordinal ?: 0].value?.get(
+                                position
+                            )?.id
                         )
                         startActivity(this)
                     }
@@ -54,10 +65,10 @@ class SudokuListActivity : AppCompatActivity() {
         }
         generatedButton.setOnClickListener {
             val temp = Array(9) { IntArray(9) }
-            var tArray:Array<IntArray>
+            var tArray: Array<IntArray>
             do {
                 SudokuKeyBuilder.obtainSudokuKey(temp, false)
-                tArray=temp
+                tArray = temp
             } while (!SudokuPuzzleBuilder.getSudokuPuzzle(temp, sudokuDegree ?: SudokuDegree.LOW))
             val cells =
                 Array(9) { i ->
@@ -75,7 +86,7 @@ class SudokuListActivity : AppCompatActivity() {
                     }
                 }
             val baseInfo = SudokuBaseInfo(cells, SudokuState.UNFINISHED, 0)
-            sudokuViewModel.insertSudoku(SudokuGame(0, Date(), baseInfo, sudokuDegree,tArray))
+            sudokuViewModel.insertSudoku(SudokuGame(0, Date(), baseInfo, sudokuDegree, tArray))
         }
         sudokuDegree?.let { degree ->
             sudokuViewModel.sudokuList[degree.ordinal].observe(

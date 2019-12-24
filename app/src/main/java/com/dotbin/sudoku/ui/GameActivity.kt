@@ -2,6 +2,8 @@ package com.dotbin.sudoku.ui
 
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +21,13 @@ class GameActivity : AppCompatActivity() {
     private var keyNum = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+
         setContentView(R.layout.activity_game)
         keyNum = numKeyboard.getNum()
         sudokuViewModel = ViewModelProvider(this).get(SudokuViewModel::class.java)
@@ -30,7 +39,7 @@ class GameActivity : AppCompatActivity() {
                     sudokuGameView.cellIfs = it.sudokuGame.sudokuArray
                     sudokuGameView.invalidate()
                     sudokuViewModel.startTime(it.sudokuGame.time)
-                        sudoku.sudokuGame.state = SudokuState.PROCESSING
+                    sudoku.sudokuGame.state = SudokuState.PROCESSING
                 })
             }
         }
@@ -54,9 +63,10 @@ class GameActivity : AppCompatActivity() {
             }
         }
         sudokuGameView.setOnSuccessListener {
-            val t =sudokuViewModel.stopTime()
-                sudokuToolbar.title = "已通关，通关时长：" +(if (t / 60 < 10) "0" else "") + "${t / 60}:" + (if (t % 60 < 10) "0" else "") + "${t % 60}"
-            sudoku.sudokuGame.state=SudokuState.FINISHED
+            val t = sudokuViewModel.stopTime()
+            sudokuToolbar.title =
+                "已通关，通关时长：" + (if (t / 60 < 10) "0" else "") + "${t / 60}:" + (if (t % 60 < 10) "0" else "") + "${t % 60}"
+            sudoku.sudokuGame.state = SudokuState.FINISHED
         }
     }
 

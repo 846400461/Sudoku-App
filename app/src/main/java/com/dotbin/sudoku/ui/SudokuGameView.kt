@@ -235,20 +235,6 @@ class SudokuGameView : View {
         return false
     }
 
-    fun setOnCellClickedListener(listener: OnCellClickedListener) {
-        onCellClicked = listener
-    }
-
-    fun firstPostCellIfs() {
-        for (i in cellIfs.indices) {
-            for (j in cellIfs[i].indices) {
-                cellIfs[i][j].backgroundColor =
-                    if (cellIfs[i][j].enabled) gameBackgroundColor else backgroundDisable
-                cellIfs[i][j].valueColor=textColor
-            }
-        }
-        postInvalidate()
-    }
 
 }
 

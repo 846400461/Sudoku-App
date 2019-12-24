@@ -4,6 +4,7 @@ import com.dotbin.sudoku.ui.SudokuCell
 
 object SudokuValue {
     val sudokuDegree="SudokuDegree"
+    val sudokuGame="SudokuGame"
     val sudokuLowBoardList= mutableListOf<Array<Array<SudokuCell>>>()
     val sudokuMidBoardList= mutableListOf<Array<Array<SudokuCell>>>()
     val sudokuHighBoardList= mutableListOf<Array<Array<SudokuCell>>>()

@@ -39,7 +39,7 @@ class SudokuListAdapter(private var sudokuBaseInfoList: List<SudokuBaseInfo>) :
             SudokuState.PROCESSING -> "进行中"
             SudokuState.UNFINISHED -> ""
         }
-        holder.timeView.text = if (sudokuBaseInfoList[position].time != 0)
+        holder.timeView.text = if (sudokuBaseInfoList[position].time != 0L)
             "${sudokuBaseInfoList[position].time / 60}:${sudokuBaseInfoList[position].time % 60}" else ""
         holder.view.setOnClickListener {
             recyclerViewClick?.let {
@@ -47,8 +47,8 @@ class SudokuListAdapter(private var sudokuBaseInfoList: List<SudokuBaseInfo>) :
             }
         }
         holder.sudokuGameView.cellIfs = sudokuBaseInfoList[position].sudokuArray
-        holder.sudokuGameView.firstPostCellIfs()
         holder.sudokuGameView.touchEnale = false
+        holder.sudokuGameView.invalidate()
 
     }
 
@@ -70,5 +70,5 @@ class SudokuListAdapter(private var sudokuBaseInfoList: List<SudokuBaseInfo>) :
 data class SudokuBaseInfo(
     var sudokuArray: Array<Array<SudokuCell>>,
     var state: SudokuState,
-    var time: Int
+    var time: Long
 )

@@ -1,7 +1,8 @@
 package com.dotbin.sudoku.ui
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -24,8 +25,6 @@ class SudokuListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sudoku_list)
-        setSupportActionBar(toolbar)
-
         sudokuViewModel = ViewModelProvider(this).get(SudokuViewModel::class.java)
 
         intent.apply {
@@ -42,12 +41,13 @@ class SudokuListActivity : AppCompatActivity() {
                 )
             )
             adapter = SudokuListAdapter(SudokuList).apply {
-                setOnRecyclerViewClickListener { info, _ ->
-                    Toast.makeText(
-                        this@SudokuListActivity,
-                        (info as SudokuBaseInfo).state.name,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                setOnRecyclerViewClickListener { _, position ->
+                    Intent(this@SudokuListActivity, GameActivity::class.java).apply {
+                        putExtra(SudokuValue.sudokuGame,
+                            sudokuViewModel.sudokuList[sudokuDegree?.ordinal?:0].value?.get(position)?.id
+                        )
+                        startActivity(this)
+                    }
                 }
                 sudokuListAdapter = this
             }
@@ -58,7 +58,20 @@ class SudokuListActivity : AppCompatActivity() {
                 SudokuKeyBuilder.obtainSudokuKey(temp, false)
             } while (!SudokuPuzzleBuilder.getSudokuPuzzle(temp, sudokuDegree ?: SudokuDegree.LOW))
             val cells =
-                Array(9) { i -> Array(9) { j -> SudokuCell(0, temp[i][j], temp[i][j] == 0, 0) } }
+                Array(9) { i ->
+                    Array(9) { j ->
+                        SudokuCell(
+                            if (temp[i][j] == 0) Color.rgb(
+                                54,
+                                54,
+                                54
+                            ) else Color.rgb(105, 105, 105),
+                            temp[i][j],
+                            temp[i][j] == 0,
+                            Color.WHITE
+                        )
+                    }
+                }
             val baseInfo = SudokuBaseInfo(cells, SudokuState.UNFINISHED, 0)
             sudokuViewModel.insertSudoku(SudokuGame(0, Date(), baseInfo, sudokuDegree))
         }

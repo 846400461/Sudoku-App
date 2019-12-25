@@ -57,10 +57,8 @@ class GameActivity : AppCompatActivity() {
             )
         }
         sudokuGameView.setOnClickListener {
-            when (keyNum) {
-                10 -> 0
-                else -> keyNum
-            }
+            numKeyboard.setNum(11)
+            11
         }
         sudokuGameView.setOnSuccessListener {
             val t = sudokuViewModel.stopTime()

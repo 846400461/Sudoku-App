@@ -211,13 +211,13 @@ class SudokuGameView : View {
     }
 
     private fun handleSameValue(row: Int, col: Int) {
-        for (dx in cellIfs.indices) {
-            for (dy in cellIfs[dx].indices) {
-                if (cellIfs[dx][dy].value == cellIfs[row][col].value && cellIfs[dx][dy].value != 0)
-                    cellIfs[dx][dy].backgroundColor = cellSameTextColor
-            }
-        }
-        cellIfs[row][col].backgroundColor = selectedCellColor
+//        for (dx in cellIfs.indices) {
+//            for (dy in cellIfs[dx].indices) {
+//                if (cellIfs[dx][dy].value == cellIfs[row][col].value && cellIfs[dx][dy].value != 0)
+//                    cellIfs[dx][dy].backgroundColor = cellSameTextColor
+//            }
+//        }
+//        cellIfs[row][col].backgroundColor = selectedCellColor
     }
 
     private fun handleConflictValue(lx: Int, ly: Int) {

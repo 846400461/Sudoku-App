@@ -139,6 +139,11 @@ class NumKeyBoardView : View {
 
     fun getNum() = selectedNum
 
+    fun setNum(num :Int){
+        selectedNum=num
+        postInvalidate()
+    }
+
     fun setNumclickListener(listen: NumClicked){
         numClicked=listen
     }

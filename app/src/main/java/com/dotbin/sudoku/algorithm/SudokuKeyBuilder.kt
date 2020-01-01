@@ -38,7 +38,7 @@ object SudokuKeyBuilder : Throwable() {
             }
     }
 
-    fun obtainSudokuKey(sudokuArray: Array<IntArray>, isRandom: Boolean){
+    suspend fun obtainSudokuKey(sudokuArray: Array<IntArray>, isRandom: Boolean){
         if (sudokuArray.size != 9)
             throw IllegalArgumentException("Illegal sudoku array size")
         sudokuArray.forEach {
